@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+
+# Text files used for I/O
+.txt
