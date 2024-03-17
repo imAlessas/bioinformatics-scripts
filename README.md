@@ -1,2 +1,3 @@
-# bioinformatics-scripts
-Repo containing scripts for unipd course "Elements of Bioinformatics" 🧬
+# Bioinformatics
+
+This repository contains the scripts produced during the "Elements of Bioinformatics" course, at Università degli Studi di Padova.
