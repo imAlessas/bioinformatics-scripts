@@ -33,4 +33,4 @@
 
 
 # Text files used for I/O
-.txt
+*.txt
