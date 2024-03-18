@@ -8,7 +8,7 @@ void generate(long long m, const string& file_name);
 
 /*
     Generates .txt files containing random generated data.
-    Estimated execution time: ~ 11 minutes
+    Estimated execution time: ~ 15 minutes
     Estimated total files size: ~ 4 GB
 */
 int main(){

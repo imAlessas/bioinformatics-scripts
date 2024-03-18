@@ -1,5 +1,12 @@
 /* @imAlessas */
 
+/*
+    The KMP algorithm uses the pattern preprocessing to generate a lookup table, AKA oracle, that will point out where to jump in case of mismatch.
+    This new approach helps to scan the sequence faster that a normal linear search (or brute force) by reducing te time complecity to O(m + n) ~ O(m)
+        With 3.2 billion character and a pattern of 20 character: ~ 12s
+
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -11,14 +18,14 @@ vector<int> KMP_search(const string&, const string&, const vector<int>&);
 
 
 int main() {
-    string sequence_file = "sequence-10000.txt";
-    string pattern_file = "pattern-5.txt";
+    string sequence_file = "sequence-3200000000.txt";
+    string pattern_file = "pattern-20.txt";
 
     
 
     // uses files to address input and output
-    ifstream input_sequence("../data-folder/" + sequence_file);
-    ifstream input_pattern("../data-folder/" + pattern_file);
+    ifstream input_sequence("../../data-folder/" + sequence_file);
+    ifstream input_pattern("../../data-folder/" + pattern_file);
     ofstream output("output.txt");
 
     // display eventual errors
