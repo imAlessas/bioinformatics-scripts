@@ -34,3 +34,6 @@
 
 # Text files used for I/O
 *.txt
+
+# VsCode generated folder
+.vscode
