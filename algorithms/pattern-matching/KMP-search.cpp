@@ -1,7 +1,6 @@
 /* @imAlessas */
 
 #include <bits/stdc++.h>
-#include "../generate-data/generator.cpp"
 
 using namespace std;
 
@@ -12,23 +11,26 @@ vector<int> KMP_search(const string&, const string&, const vector<int>&);
 
 
 int main() {
-    // generates data
-    generate_DNA_sequence(100000);
+    string sequence_file = "sequence-10000.txt";
+    string pattern_file = "pattern-5.txt";
 
+    
 
-    // uses file to address input and output
-    ifstream input("input.txt");
+    // uses files to address input and output
+    ifstream input_sequence("../data-folder/" + sequence_file);
+    ifstream input_pattern("../data-folder/" + pattern_file);
     ofstream output("output.txt");
 
-    if (!input.is_open() || !output.is_open()) {
-        cout << "Error opening files." << endl;
+    // display eventual errors
+    if (!input_sequence.is_open() || !input_pattern.is_open() || !output.is_open()) {
+        cout << endl << "Error opening files." << endl << endl;
         return 1;
     }
 
+    // defines sequence and pattern
     string sequence, pattern;
-    getline(input, sequence);
-    // getline(input, pattern);
-    pattern = "ATGTG";
+    getline(input_sequence, sequence);
+    getline(input_pattern, pattern);
 
     // obtains oracle table
     vector<int> oracle = get_oracle(pattern);
@@ -40,17 +42,18 @@ int main() {
 
     // calculates duration
     auto stop = chrono::high_resolution_clock::now();
-    auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+    int duration = chrono::duration_cast<chrono::milliseconds>(stop - start).count();
 
     // ouputs duration and matches
-    cout << endl << "KMP-search:  " << duration.count() << " ms" << endl;
+    cout << endl << "KMP-search:  " << duration << " ms" << endl;
     cout << "             " << positions.size() << " match(es)" << endl << endl;
 
     // writes the indexes
     for (int i : positions)
         output << i << endl;
 
-    input.close();
+    input_sequence.close();
+    input_pattern.close();
     output.close();
 
     // opens output file
