@@ -72,22 +72,27 @@ int main() {
 
 
 
-// implementation of Knuth–Morris–Pratt algorithm
+// Function to perform Knuth-Morris-Pratt (KMP) string matching algorithm
+// This function searches for occurrences of a pattern within a given sequence using the provided Oracle vector
 vector<int> KMP_search(const string& sequence, const string& pattern, const vector<int>& oracle) {
     int j = 0, k = 0;
     vector<int> positions;
 
+    // Iterate through the sequence to find matches with the pattern
     while (j < sequence.size()) {
+        // Check for matching characters between pattern and sequence
         if (pattern[k] == sequence[j]) {
             j++;
             k++;
 
+            // If a complete match is found, store the position and update k based on Oracle vector
             if (k == pattern.size()) {
                 positions.push_back(j - k);
                 k = oracle[k - 1];
             }
 
         } else {
+            // Update k based on Oracle vector or move to the next character in the sequence
             if(k)
                 k = oracle[k - 1];
             else
@@ -95,26 +100,31 @@ vector<int> KMP_search(const string& sequence, const string& pattern, const vect
         }
     }
 
-    return positions;
-} //  KMP_search
+    return positions; // Return the positions of pattern occurrences in the sequence
+}
 
 
 
 
-// oracle (lookup table) implementation
+// Function to generate the Oracle vector for a given pattern
+// This function creates an Oracle vector that stores the longest prefix that is also a suffix for each position in the pattern
 vector<int> get_oracle(const string& pattern) {
     int i = 0;
     vector<int> oracle(pattern.size());
 
+    // Iterate through the pattern to populate the Oracle vector
     for (int j = 1; j < pattern.size(); j++) {
+        // Update the value of i based on matching prefixes and suffixes
         while (i > 0 && pattern[i] != pattern[j])
             i = oracle[i - 1];
         
+        // Increment i if characters match
         if (pattern[i] == pattern[j])
             i++;
         
+        // Store the value of i in the Oracle vector at position j
         oracle[j] = i;
     }
 
-    return oracle;
-} // get_oracle
+    return oracle; // Return the generated Oracle vector
+}
