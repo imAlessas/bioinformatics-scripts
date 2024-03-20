@@ -23,15 +23,18 @@ int main() {
     
 
     // uses files to address input and output
-    ifstream input_sequence("../../data-folder/" + sequence_file);
-    ifstream input_pattern("../../data-folder/" + pattern_file);
+    ifstream input_sequence("../../../data/" + sequence_file);
+    ifstream input_pattern("../../../data/" + pattern_file);
     ofstream output("output.txt");
 
     // display eventual errors
     if (!input_sequence.is_open() || !input_pattern.is_open() || !output.is_open()) {
-        cout << endl << "Error opening files." << endl << endl;
+        cout << endl << "          \033[31m" << "\033[1m" << "Error" << "\033[0m" << "\033[31m" << " opening files." << "\033[37m" << endl << endl;
         return 1;
     }
+
+    cout << endl << "            \033[32m" << "Files " << "\033[1m" << "accepted" << "\033[0m\033[32m" << "." << "\033[37m" << endl << endl;
+
 
     // defines sequence and pattern
     string sequence, pattern;
@@ -49,8 +52,11 @@ int main() {
     int duration = chrono::duration_cast<chrono::milliseconds>(stop - start).count();
 
     // ouputs duration and matches
-    cout << endl << "Brute force:  " << duration << " ms" << endl;
-    cout << "              " << positions.size() << " match(es)" << endl << endl;
+    cout << endl << "Brute force:" << endl;
+    cout << "   Matches:    " << "\033[1m \033[33m" << positions.size() << "\033[37m \033[0m" << endl;
+    cout << "   Duration:   " << "\033[34m" << duration << " ms" << "\033[37m" << endl << endl;
+
+
 
     // writes the indexes
     for (int i : positions)
