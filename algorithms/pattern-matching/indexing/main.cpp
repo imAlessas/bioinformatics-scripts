@@ -7,7 +7,7 @@ using namespace std;
 
 // function definition
 
-map<string, vector<int>> get_index(const string&, int);
+unordered_map<string, vector<int>> get_index(const string&, int);
 
 
 
@@ -15,7 +15,7 @@ map<string, vector<int>> get_index(const string&, int);
 int main() {
 
     // defines the source files
-    const string sequence_file = "sequence-1000000.txt";
+    const string sequence_file = "sequence-10000.txt";
     const string pattern_file = "pattern-5.txt";
 
     const int k = 5;
@@ -43,7 +43,7 @@ int main() {
 
 
     // gets the index
-    map<string, vector<int>> index = get_index(sequence, k);
+    unordered_map<string, vector<int>> index = get_index(sequence, k);
 
     // prints the index
     for (const auto& bucket : index) {
@@ -62,13 +62,13 @@ int main() {
 
 
 // Function to generate an index of substrings of length k from a given sequence
-// The index maps substrings to the positions where they occur in the sequence
-map<string, vector<int>> get_index(const string& sequence, int k){
+// The index unordered_maps substrings to the positions where they occur in the sequence
+unordered_map<string, vector<int>> get_index(const string& sequence, int k){
 
-    map<string, vector<int>> index = {};
-
+    unordered_map<string, vector<int>> index = {};
+    unordered_map<string, vector<int>> :: iterator pos;
     string s;
-    map<string, vector<int>> :: iterator pos;
+
 
     // Iterate through the sequence to create the index
     for(int i = 0; i < sequence.size() - k; i++) {
