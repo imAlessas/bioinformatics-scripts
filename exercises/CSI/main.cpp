@@ -1,5 +1,10 @@
 /* @imAlessas */
 
+/*
+    Execution:
+        g++ main.cpp -o main ; ./main suspects.txt dna_trace.txt
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -34,8 +39,8 @@ int main(int argc, char* argv[]) {
     // check input
     cout << endl;
     cout << "Files: " << endl;
-    cout << "      Suspects:    " << "\033[34m" << suspects_file_name << "\033[37m" << endl;
-    cout << "      Suspects:    " << "\033[34m" << sequence_file_name << "\033[37m" << endl;
+    cout << "     Suspects:    " << "\033[34m" << suspects_file_name << "\033[37m" << endl;
+    cout << "     DNA:         " << "\033[34m" << sequence_file_name << "\033[37m" << endl;
 
 
 
@@ -68,42 +73,58 @@ int main(int argc, char* argv[]) {
     // start counting occurencies for all STRs
     vector<int> STR_occurrencies = {};
 
-    for(string tandem : STR_vector)
+    for(string tandem : STR_vector) // for each tande, calculates longest STR
         STR_occurrencies.push_back(longest_STR(sequence, tandem));
-    
-    // prints occurrencies
-    // for(pair<string, int> o : STR_occurrencies)
-    //     cout << o.first << " : " << o.second << endl;
 
 
-    // checks with the suspects
+    // checks ,atches with the suspects
     string suspect;
     vector<string> STR_detected;
+    map<string, int> matches;
 
-    cout << endl << endl << "Suspects: " << endl;
     while(getline(suspects_input, suspect)){
         STR_detected = split_string(suspect, ' ');
 
         suspect = STR_detected[0];
+
+        matches.insert({suspect, 0});
+
         STR_detected.erase(STR_detected.begin());
 
         for(int i = 0; i < STR_detected.size(); i++){
             if(stoi(STR_detected[i]) == STR_occurrencies[i])
-                cout << "    - \033[32m" << suspect << "\033[37m" << endl;
-
+                matches[suspect] = matches[suspect] + 1;
         }
     }
-        cout << endl;
+
+    // prints the suspects
+    cout << endl << endl << "Suspects: " << endl;
+    string padding;
+
+    for(pair<string, int> m : matches){
+        padding = "";
+
+        for(int i = 0; i < 13 - m.first.size(); i++)
+            padding = padding + " ";
+
+        if(m.second > 0)
+             cout << "     >> \033[32m" << m.first << "\033[37m" << padding << "\033[31m\033[1m" << m.second << "\033[0m\033[37m /" << STR_detected.size() <<"  match(es)" << endl;
+    }
+    cout << endl;
+
 
     return 0;
-}
+} // main
 
+
+//
 
 
 
 // finds the longest short-tandem-repeat
 int longest_STR(const string& sequence, const string& pattern){
 
+    // gets all the patter occurrencies
     vector<int> positions = KMP_search(sequence, pattern, get_oracle(pattern));
 
     int begin = 0, longest = 0;
@@ -185,13 +206,22 @@ vector<string> split_string(const string& str, char tok){
     vector<string> fragments = {};
     int j = 0;
 
+    // splits the string
     for (int i = 0; i < str.size(); i++)
         if (str[i] == tok){
             fragments.push_back(str.substr(j, i - j));
             j = i + 1;
         }
     
+    // last fragment
     fragments.push_back(str.substr(j, str.size() - j));
     
     return fragments;
-}
+} // split_string
+
+
+
+/*
+    0.1% su un genoma di 3B di basi è comunque tanto. CI sono alcune regione del enoma in cui quesa diversità è evidente. Grazie alluso di pattern corti noti detti Short Tande Repeata. Il numero massimo di STR che noi riusciamo a distinguere [back2back, senza gap]
+    Per ciasuna STR si ripete ugulmente nel DNA, si è quasi certi che si ha un'occorrenza.
+*/ 
