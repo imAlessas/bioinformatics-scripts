@@ -92,10 +92,11 @@ vector<int> find_pattern(const string& sequence, const string& pattern, vector<p
     // first k chars of the pattern
     string pattern_subs = pattern.substr(0, k);
 
-    // gets all the possible positions
+    // the vector will contain all the unchecked positions 
     vector<int> positions_uncheck;
 
     /* TODO */
+    int pivot = find(v.begin(), v.end(), pattern_subs);
 
 
 
