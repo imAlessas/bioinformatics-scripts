@@ -41,7 +41,6 @@
 # Ignore all text files for I/O
 algorithms/**/*.txt
 data/**/*.txt
-exercises/CSI/dataset/*.txt
 
 
 # VsCode generated folder
