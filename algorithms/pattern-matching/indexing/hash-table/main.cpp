@@ -14,25 +14,27 @@ using namespace std;
 
 // function definition
 
-unordered_map<string, vector<int>> get_hash_table(const string&, int);
-
 vector<int> find_pattern(const string&, const string&, unordered_map<string, vector<int>>&, int);
+
+unordered_map<string, vector<int>> get_hash_table(const string&, int);
 
 
 
 int main() {
 
     // defines the source files
-    string sequence_file = "sequence-10000000.txt";
+    string sequence_file = "sequence-1000000.txt";
     string pattern_file = "pattern-10.txt";
+    string output_file = "hash-table-indexing-output.txt";
 
     const int k = 5;
     
 
+
     // uses files to address input and output
-    ifstream input_sequence("../../../data/" + sequence_file);
-    ifstream input_pattern("../../../data/" + pattern_file);
-    ofstream output("output.txt");
+    ifstream input_sequence("../../../../data/" + sequence_file);
+    ifstream input_pattern("../../../../data/" + pattern_file);
+    ofstream output(output_file);
 
     // displays eventual errors
     if (!input_sequence.is_open() || !input_pattern.is_open() || !output.is_open()) {
@@ -48,13 +50,16 @@ int main() {
     getline(input_sequence, sequence);
     getline(input_pattern, pattern);
 
+
     auto start = chrono::high_resolution_clock::now();
+
 
     // gets hash_table
     unordered_map<string, vector<int>> hash_table = get_hash_table(sequence, k);
 
     // gets positions
     vector<int> positions = find_pattern(sequence, pattern, hash_table, k);
+
 
     // calculates duration
     auto stop = chrono::high_resolution_clock::now();
@@ -75,7 +80,8 @@ int main() {
     output.close();
 
     // opens output file
-    system("start output.txt");
+    
+    system(("start " + output_file).c_str());
 
 
     return 0;

@@ -20,13 +20,13 @@ vector<int> KMP_search(const string&, const string&, const vector<int>&);
 int main() {
     string sequence_file = "sequence-3200000000.txt";
     string pattern_file = "pattern-20.txt";
-
+    string output_file = "KMP-search-output.txt";
     
 
     // uses files to address input and output
     ifstream input_sequence("../../../data/" + sequence_file);
     ifstream input_pattern("../../../data/" + pattern_file);
-    ofstream output("output.txt");
+    ofstream output(output_file);
 
     // display eventual errors
     if (!input_sequence.is_open() || !input_pattern.is_open() || !output.is_open()) {
@@ -67,8 +67,8 @@ int main() {
     output.close();
 
     // opens output file
-    system("start output.txt");
-
+    system(("start " + output_file).c_str());
+    
     return 0;
 } // main
 
