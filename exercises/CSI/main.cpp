@@ -2,7 +2,7 @@
 
 /*
     Execution:
-        g++ main.cpp -o main ; ./main suspects.txt dna_trace.txt
+        g++ main.cpp -o main ; ./main suspects.txt DNA-trace-1.txt
 */
 
 #include <bits/stdc++.h>
@@ -10,19 +10,21 @@
 using namespace std;
 
 
-// function definition
-
-vector<string> split_string(const string&, char);
-
-vector<int> get_oracle(const string&);
-
-vector<int> KMP_search(const string&, const string&, const vector<int>&);
+// functions definition
 
 int longest_STR(const string&, const string&);
 
+int repetitions(const string&);
+
+vector<int> KMP_search(const string&, const string&, const vector<int>&);
+
+vector<int> get_oracle(const string&);
+
+vector<string> split_string(const string&, char);
 
 
 
+// main
 int main(int argc, char* argv[]) {
 
     // initial inputs
@@ -62,7 +64,7 @@ int main(int argc, char* argv[]) {
 
     vector<string> STR_vector = split_string(STR_string, ' ');
     
-    // removes 'name'
+    // removes string 'name'
     STR_vector.erase(STR_vector.begin());
 
 
@@ -70,14 +72,15 @@ int main(int argc, char* argv[]) {
     string sequence;
     getline(sequence_input, sequence);
 
-    // start counting occurencies for all STRs
+
+    // starts counting occurencies for all STRs
     vector<int> STR_occurrencies = {};
 
     for(string tandem : STR_vector) // for each tande, calculates longest STR
         STR_occurrencies.push_back(longest_STR(sequence, tandem));
 
 
-    // checks ,atches with the suspects
+    // checks matches with the suspects
     string suspect;
     vector<string> STR_detected;
     map<string, int> matches;
@@ -93,11 +96,11 @@ int main(int argc, char* argv[]) {
 
         for(int i = 0; i < STR_detected.size(); i++){
             if(stoi(STR_detected[i]) == STR_occurrencies[i])
-                matches[suspect] = matches[suspect] + 1;
+                matches[suspect] ++;
         }
     }
 
-    // prints the suspects
+    // prints the possible suspects
     cout << endl << endl << "Suspects: " << endl;
     string padding;
 
@@ -117,8 +120,6 @@ int main(int argc, char* argv[]) {
 } // main
 
 
-//
-
 
 
 // finds the longest short-tandem-repeat
@@ -127,10 +128,13 @@ int longest_STR(const string& sequence, const string& pattern){
     // gets all the patter occurrencies
     vector<int> positions = KMP_search(sequence, pattern, get_oracle(pattern));
 
+    // gets how many sub-pattern repetition is composed the pattern
+    int jump = repetitions(pattern);
+
     int begin = 0, longest = 0;
     
     // starts counting the STR
-    for(int i = 0; i < positions.size() - 1; i++){
+    for(int i = 0; i < positions.size() - 1; i += jump){
         begin = i;
 
         while( positions[i + 1] - positions[i] == pattern.size() ){
@@ -143,6 +147,40 @@ int longest_STR(const string& sequence, const string& pattern){
 
     return longest;
 } // longest_STR
+
+
+
+
+// this functions checks if the pattern is composed of a sequence of sub-patterns and checks how many repetitions there are
+// ATATAT --> there are three repetitions of the sub-pattern AT
+// ATCAT --> there is one repetition of the sub-pattern ATCAT
+int repetitions(const string& pattern){
+
+    int r = 1; // number of repetition
+    string sub_pattern;
+
+    for(int i = 1; i <= pattern.size() / 2; i++){
+        
+        sub_pattern = pattern.substr(0, i);
+
+        for(int j = i; j < pattern.size(); j += i){
+
+            if( sub_pattern != pattern.substr(j, i) )
+                break;
+            
+            r++;
+        }
+
+        // exits the loop if the minimum complete sub-patter is found;
+        if( r * sub_pattern.size() == pattern.size())
+            break;
+        else // otherwise restarts r
+            r = 1; 
+    }
+
+    return r;
+
+} // repetitions
 
 
 
@@ -185,7 +223,7 @@ vector<int> get_oracle(const string& pattern) {
 
     for (int j = 1; j < pattern.size(); j++) {
         while (i > 0 && pattern[i] != pattern[j])
-            i = oracle[i - 1];
+            i = oracle[i - 1]; 
         
         if (pattern[i] == pattern[j])
             i++;
@@ -218,10 +256,3 @@ vector<string> split_string(const string& str, char tok){
     
     return fragments;
 } // split_string
-
-
-
-/*
-    0.1% su un genoma di 3B di basi è comunque tanto. CI sono alcune regione del enoma in cui quesa diversità è evidente. Grazie alluso di pattern corti noti detti Short Tande Repeata. Il numero massimo di STR che noi riusciamo a distinguere [back2back, senza gap]
-    Per ciasuna STR si ripete ugulmente nel DNA, si è quasi certi che si ha un'occorrenza.
-*/ 
