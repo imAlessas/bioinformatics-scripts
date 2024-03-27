@@ -53,3 +53,7 @@ template.cpp
 
 # auto generated file
 tempCodeRunnerFile.cpp
+
+
+# all temporary files
+tmp.*
