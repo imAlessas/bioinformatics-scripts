@@ -3,6 +3,7 @@
 /*
     The hash-table indexing technique uses the sequence-preporcessing to analyze and obtain the pattern positions in the sequence
     This approach uses more memory than the KMP-search: by using the 3.2B sequence the compiler is likely to throw a std::bad_alloc error
+    By comparing this process with the vector<pattern, pos> we can see a major improvement time-wise: for 10 mln character this approach needs 5 seconds meanwhile the vector approach needs 40 seconds
     Nonetheless this approach is less efficient than the KMP search but allows to search different patterns at the same time by using the same index. On the other hand, for every pattern the KMP search needs a new oracle.
 */
 
@@ -22,18 +23,20 @@ unordered_map<string, vector<int>> get_hash_table(const string&, int);
 
 int main() {
 
+    const string DATA_FOLDER_PATH = "../../../../data/";
+
     // defines the source files
-    string sequence_file = "sequence-1000000.txt";
-    string pattern_file = "pattern-10.txt";
-    string output_file = "hash-table-indexing-output.txt";
+    const string sequence_file = "sequence-1000000.txt";
+    const string pattern_file = "pattern-10.txt";
+    const string output_file = "hash-table-indexing-output.txt";
 
     const int k = 5;
     
 
 
     // uses files to address input and output
-    ifstream input_sequence("../../../../data/" + sequence_file);
-    ifstream input_pattern("../../../../data/" + pattern_file);
+    ifstream input_sequence(DATA_FOLDER_PATH + sequence_file);
+    ifstream input_pattern(DATA_FOLDER_PATH + pattern_file);
     ofstream output(output_file);
 
     // displays eventual errors

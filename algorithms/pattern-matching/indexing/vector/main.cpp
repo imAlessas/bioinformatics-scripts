@@ -66,7 +66,7 @@ int main() {
     int duration = chrono::duration_cast<chrono::milliseconds>(stop - start).count();
 
     // ouputs duration and matches
-    cout << endl << "Hash-Table:" << endl;
+    cout << endl << "Vector:" << endl;
     cout << "   Matches:    " << "\033[1m \033[33m" << positions.size() << "\033[37m \033[0m" << endl;
     cout << "   Duration:   " << "\033[34m" << duration << " ms" << "\033[37m" << endl << endl;
 

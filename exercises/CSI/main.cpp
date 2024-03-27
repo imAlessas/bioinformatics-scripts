@@ -116,8 +116,14 @@ int main(int argc, char* argv[]) {
     cout << endl;
 
 
+    // close files
+    suspects_input.close();
+    sequence_input.close();
+
+
     return 0;
 } // main
+
 
 
 
@@ -147,6 +153,7 @@ int longest_STR(const string& sequence, const string& pattern){
 
     return longest;
 } // longest_STR
+
 
 
 
@@ -185,6 +192,7 @@ int repetitions(const string& pattern){
 
 
 
+
 // implementation of Knuth–Morris–Pratt algorithm
 vector<int> KMP_search(const string& sequence, const string& pattern, const vector<int>& oracle) {
 
@@ -215,6 +223,7 @@ vector<int> KMP_search(const string& sequence, const string& pattern, const vect
 
 
 
+
 // oracle (lookup table) implementation
 vector<int> get_oracle(const string& pattern) {
 
@@ -233,6 +242,7 @@ vector<int> get_oracle(const string& pattern) {
 
     return oracle;
 } // get_oracle
+
 
 
 

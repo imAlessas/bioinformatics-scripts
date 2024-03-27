@@ -16,16 +16,19 @@ vector<int> brute_force(const string&, const string&);
 
 
 int main() {
+
+    const string DATA_FOLDER_PATH = "../../../data/";
+
     // defines the source files
-    string sequence_file = "sequence-3200000000.txt";
-    string pattern_file = "pattern-20.txt";
-    string output_file = "brute-force-output.txt";
+    const string sequence_file = "sequence-3200000000.txt";
+    const string pattern_file = "pattern-20.txt";
+    const string output_file = "brute-force-output.txt";
 
     
 
     // uses files to address input and output
-    ifstream input_sequence("../../../data/" + sequence_file);
-    ifstream input_pattern("../../../data/" + pattern_file);
+    ifstream input_sequence(DATA_FOLDER_PATH + sequence_file);
+    ifstream input_pattern(DATA_FOLDER_PATH + pattern_file);
     ofstream output(output_file);
 
 
