@@ -7,11 +7,11 @@ using namespace std;
 
 // function definition
 
-long MTP(vector<vector<int>>&, vector<vector<int>>&);
+long MTP(vector<vector<array<int, 3>>>&);
 
-pair<vector<vector<int>>, vector<vector<int>>> get_manhattan_grid(int, int, int);
+vector<vector<array<int, 3>>> get_manhattan_grid(int, int, int);
 
-void display_grid(vector<vector<int>>&, vector<vector<int>>&, const string&);
+void display_grid(const vector<vector<array<int, 3>>>&, const string&);
 
 
 
@@ -40,10 +40,14 @@ int main() {
     auto start = chrono::high_resolution_clock::now();
     
     // creates the grid
-    pair<vector<vector<int>>, vector<vector<int>>> manhattan_grid = get_manhattan_grid(n, m, max);
+    vector<vector<array<int, 3>>> manhattan_grid = get_manhattan_grid(n, m, max);
+
+    for(auto i : manhattan_grid)
+        for(auto j : i)
+            cout << j[0] << " " << j[1] << " " << j[2] << endl;
 
     // analyzes the grid
-    long highest_score = MTP(manhattan_grid.first, manhattan_grid.second);
+    long highest_score = 0;
 
 
     // calculates duration
@@ -55,68 +59,56 @@ int main() {
     cout << "   Highest Score:   " << "\033[1m\033[33m" << highest_score << "\033[37m \033[0m" << endl;
     cout << "   Duration:        " << "\033[34m" << duration << " ms" << "\033[37m" << endl << endl;
 
-    display_grid(manhattan_grid.first, manhattan_grid.second, output_file);
+    // display_grid(manhattan_grid.first, manhattan_grid.second, output_file);
 
     return 0;
 }
 
 
 // generates manhattan grid given the rows, cols and max value per edge
-pair<vector<vector<int>>, vector<vector<int>>> get_manhattan_grid(int n, int m, int max) {
+vector<vector<array<int, 3>>> get_manhattan_grid(int n, int m, int max) {
 
-    vector<vector<int>> down(n, vector<int>(m - 1));
-    vector<vector<int>> right(n - 1, vector<int>(m));
+    vector<vector<array<int, 3>>> grid(n, vector<array<int, 3>>(m));
 
-    // Populate the down vector with random values
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m - 1; j++) {
-            down[i][j] = rand() % max;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            
+            // fills the horizontal (i - 1, j) edge
+            grid[i][j][0] = rand() % max;
+
+            // fills the vertical (i, j - 1) edge
+            grid[i][j][1] = rand() % max;
+
+            //  fils the diagonal (i - 1, j - 1) edge
+            if(rand() % 2)
+                grid[i][j][2] = rand() % max;
+            else
+                grid[i][j][2] = 0;
         }
     }
 
-    // Populate the right vector with random values
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < m; j++) {
-            right[i][j] = rand() % max;
-        }
-    }
-    
-    return {down, right};
+    return grid;
+
 } // get_manhattan_grid
 
 
 
 
 // gets the highest score obtained by the optimal path through the gird
-long MTP(vector<vector<int>>& down, vector<vector<int>>& right) {
+long MTP(vector<vector<array<int, 3>>>& grid) {
 
-    int n = down.size();
-    int m = right.size();
+    int rows = grid.size();
+    int cols = grid[0].size();
 
-    // creates a 2D vector containing "n + 1" vectors, each of them with "m + 1" values, all 0s
-    vector<vector<long>> highest_scores(n + 1, vector<long>(m + 1, 0));
+    vector<vector<int>> highest_scores(rows, vector<int>(cols));
 
-    // Initialize the first row and column
-    for (int i = 1; i <= n; i++) {
-        highest_scores[i][0] = highest_scores[i - 1][0] + down[i - 1][0];
-    }
-    for (int j = 1; j <= m; j++) {
-        highest_scores[0][j] = highest_scores[0][j - 1] + right[0][j - 1];
-    }
+    // TODO
 
-
-    // Fill the rest of the table
-    for (int i = 1; i < n; i++) {
-        for (int j = 1; j < m; j++) {
-            highest_scores[i][j] = max(highest_scores[i - 1][j] + down[i - 1][j - 1], highest_scores[i][j - 1] + right[i - 1][j - 1]);
-        }
-    }
-
-    return highest_scores[n - 1][m - 1];
+    return highest_scores[0][0];
 } // MTP
 
 
-void display_grid(vector<vector<int>>& down, vector<vector<int>>& right, const string& output_file) {
+void display_grid(const vector<vector<array<int, 3>>>& grid, const string& output_file) {
     ofstream output(output_file);
 
     /*  Reference graphics
@@ -135,51 +127,8 @@ void display_grid(vector<vector<int>>& down, vector<vector<int>>& right, const s
         ■────n────■────n────■────n────■
     */
 
+
     // TODO
-    int n = down.size();
-    int m = down[0].size() + 1;
-
-    // Print the grid
-    for (int i = 0; i <= n; i++) {
-        // Print the top row
-        output << "        ■";
-        for (int j = 0; j < m - 1; j++) {
-            output << "───" << down[i][j] << "───■";
-        }
-        output << "\n";
-
-        // Print the middle row
-        output << "       │";
-        for (int j = 0; j < m - 1; j++) {
-            output << "       │";
-        }
-        output << "       │\n";
-
-        // Print the bottom row
-        output << "       │";
-        for (int j = 0; j < m - 1; j++) {
-            if (i < n) {
-                output << right[i][j] << "       │";
-            } else {
-                output << "       │";
-            }
-        }
-        output << "\n";
-
-        // Print the middle row
-        output << "       │";
-        for (int j = 0; j < m - 1; j++) {
-            output << "       │";
-        }
-        output << "       │\n";
-    }
-
-    // Print the bottom row
-    output << "        ■";
-    for (int j = 0; j < m - 1; j++) {
-        output << "───■";
-    }
-    output << "\n";
 
     output.close();
     system(("start " + output_file).c_str());
