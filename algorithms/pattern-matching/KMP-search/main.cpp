@@ -22,7 +22,7 @@ int main() {
     const string DATA_FOLDER_PATH = "../../../data/";
 
     // defines the source files
-    const string sequence_file = "sequence-3200000000.txt";
+    const string sequence_file = "sequence-10000000.txt";
     const string pattern_file = "pattern-20.txt";
     const string output_file = "KMP-search-output.txt";
     
@@ -134,4 +134,4 @@ vector<int> get_oracle(const string& pattern) {
     }
 
     return oracle; // Return the generated Oracle vector
-}
+} // get_oracle

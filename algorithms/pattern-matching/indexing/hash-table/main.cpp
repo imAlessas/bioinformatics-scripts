@@ -26,7 +26,7 @@ int main() {
     const string DATA_FOLDER_PATH = "../../../../data/";
 
     // defines the source files
-    const string sequence_file = "sequence-1000000.txt";
+    const string sequence_file = "sequence-10000000.txt";
     const string pattern_file = "pattern-10.txt";
     const string output_file = "hash-table-indexing-output.txt";
 
@@ -118,9 +118,9 @@ vector<int> find_pattern(const string& sequence, const string& pattern, unordere
         for(int i = 0; i < pattern.size() - k; i++){
             // if reached the end of the string or the pattern does not match
             if(sequence[start_check + i] == string::npos || sequence[start_check + i] != pattern[k + i]){
-                    flag = false;
-                    break;
-                }
+                flag = false;
+                break;
+            }
         }
 
         if(flag)
