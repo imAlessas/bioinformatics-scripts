@@ -17,6 +17,8 @@ using namespace std;
 
 vector<int> find_pattern(const string&, const string&, unordered_map<string, vector<int>>&, int);
 
+bool check_position(int, int, const string&, const string&);
+
 unordered_map<string, vector<int>> get_hash_table(const string&, int);
 
 
@@ -26,7 +28,7 @@ int main() {
     const string DATA_FOLDER_PATH = "../../../../data/";
 
     // defines the source files
-    const string sequence_file = "sequence-10000000.txt";
+    const string sequence_file = "sequence-100000000.txt";
     const string pattern_file = "pattern-10.txt";
     const string output_file = "hash-table-indexing-output.txt";
 
@@ -75,6 +77,7 @@ int main() {
 
 
     // writes the indexes
+    output << "Total Postions: " << positions.size() << endl << endl;
     for (int i : positions)
         output << i << endl;
 
@@ -105,32 +108,30 @@ vector<int> find_pattern(const string& sequence, const string& pattern, unordere
     // gets all the positions
     vector<int> positions_uncheck = table[pattern_subs];
 
-
-    bool flag;
-    int start_check;
-
     // checks for the rest of the pattern
-    for(int pos : positions_uncheck){
-
-        flag = true;
-        start_check = pos + k;
-
-        for(int i = 0; i < pattern.size() - k; i++){
-            // if reached the end of the string or the pattern does not match
-            if(sequence[start_check + i] == string::npos || sequence[start_check + i] != pattern[k + i]){
-                flag = false;
-                break;
-            }
-        }
-
-        if(flag)
+    for(int pos : positions_uncheck)
+        if( check_position(pos, k, pattern, sequence) )
             positions.push_back(pos);
-        
-    }
 
     return positions;
 }
 
+
+// Checks if the position is the beginning of a pattern occurrency
+bool check_position(int sequence_idx, int k, const string& pattern, const string& sequence){
+
+    int start_check = sequence_idx + k;
+
+    for(int i = 0; i < pattern.size() - k; i++){
+        
+        // if reached the end of the string or the pattern does not match
+        if(sequence[start_check + i] == string::npos || sequence[start_check + i] != pattern[k + i])
+            return false;
+    }
+
+
+    return true;
+} // check_position
 
 
 
@@ -143,7 +144,7 @@ unordered_map<string, vector<int>> get_hash_table(const string& sequence, int k)
     // Iterate through the sequence to create the index
     for (int i = 0; i < sequence.size() - k; i++) {
         s = sequence.substr(i, k);
-        auto pos = hash_table.find(s);
+        auto pos = hash_table.find(s);  // O(1)
 
         // Handle collisions by updating existing entries or inserting new ones
         if (pos != hash_table.end())
