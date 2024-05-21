@@ -26,7 +26,7 @@ int main() {
     const string DATA_FOLDER_PATH = "../../../../data/";
 
     // defines the source files
-    const string sequence_file = "sequence-10000000.txt";
+    const string sequence_file = "sequence-100000000.txt";
     const string pattern_file = "pattern-10.txt";
     const string output_file = "spaced-seeds-indexing-output.txt";
 
@@ -78,7 +78,7 @@ int main() {
 
 
     // writes the indexes
-    output << "Total occurrencies: " << positions.size() << endl << endl;
+    output << "Total occurrences: " << positions.size() << endl << endl;
     for (int i : positions)
         output << i << endl;
 

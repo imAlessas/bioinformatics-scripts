@@ -77,7 +77,7 @@ int main() {
 
 
     // writes the indexes
-    output << "Total Postions: " << positions.size() << endl << endl;
+    output << "Total occurrences: " << positions.size() << endl << endl;
     for (int i : positions)
         output << i << endl;
 

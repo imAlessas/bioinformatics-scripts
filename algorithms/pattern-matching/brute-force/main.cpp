@@ -20,8 +20,8 @@ int main() {
     const string DATA_FOLDER_PATH = "../../../data/";
 
     // defines the source files
-    const string sequence_file = "sequence-3200000000.txt";
-    const string pattern_file = "pattern-20.txt";
+    const string sequence_file = "sequence-100000000.txt";
+    const string pattern_file = "pattern-10.txt";
     const string output_file = "brute-force-output.txt";
 
     
@@ -64,6 +64,7 @@ int main() {
 
 
     // writes the indexes
+    output << "Total occurrences: " << positions.size() << endl << endl;
     for (int i : positions)
         output << i << endl;
 

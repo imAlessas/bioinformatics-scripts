@@ -22,8 +22,8 @@ int main() {
     const string DATA_FOLDER_PATH = "../../../data/";
 
     // defines the source files
-    const string sequence_file = "sequence-10000000.txt";
-    const string pattern_file = "pattern-20.txt";
+    const string sequence_file = "sequence-100000000.txt";
+    const string pattern_file = "pattern-10.txt";
     const string output_file = "KMP-search-output.txt";
     
 
@@ -63,6 +63,7 @@ int main() {
     cout << "   Duration:   " << "\033[34m" << duration << " ms" << "\033[37m" << endl << endl;
 
     // writes the indexes
+    output << "Total occurrences: " << positions.size() << endl << endl;
     for (int i : positions)
         output << i << endl;
 
@@ -79,7 +80,7 @@ int main() {
 
 
 
-// Function to perform Knuth-Morris-Pratt (KMP) string matching algorithm
+// Function that performs Knuth-Morris-Pratt (KMP) string matching algorithm
 // This function searches for occurrences of a pattern within a given sequence using the provided Oracle vector
 vector<int> KMP_search(const string& sequence, const string& pattern, const vector<int>& oracle) {
     int j = 0, k = 0;

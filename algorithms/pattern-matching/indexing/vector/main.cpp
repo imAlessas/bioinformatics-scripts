@@ -24,7 +24,7 @@ int main() {
     const string DATA_FOLDER_PATH = "../../../../data/";
 
     // defines the source files
-    string sequence_file = "sequence-10000000.txt";
+    string sequence_file = "sequence-100000000.txt";
     string pattern_file = "pattern-10.txt";
     string output_file = "vector-indexing-output.txt";
 
@@ -72,6 +72,7 @@ int main() {
 
 
     // writes the indexes
+    output << "Total occurrences: " << positions.size() << endl << endl;
     for (int i : positions)
         output << i << endl;
 

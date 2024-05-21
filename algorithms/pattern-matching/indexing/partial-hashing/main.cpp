@@ -27,8 +27,8 @@ int main() {
     const string DATA_FOLDER_PATH = "../../../../data/";
 
     // defines the source files
-    const string sequence_file = "sequence-10000000.txt";
-    const string pattern_file = "pattern-20.txt";
+    const string sequence_file = "sequence-100000000.txt";
+    const string pattern_file = "pattern-10.txt";
     const string output_file = "partial-hashing-indexing-output.txt";
 
     const int K = 5;
@@ -76,7 +76,7 @@ int main() {
 
 
     // writes the indexes
-    output << "Total Postions: " << positions.size() << endl << endl;
+    output << "Total occurrences: " << positions.size() << endl << endl;
     for (int i : positions)
         output << i << endl;
 
